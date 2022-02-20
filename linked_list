@@ -1,0 +1,115 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct sll
+{
+ int data;
+ struct sll *next;
+};
+
+void print_list (struct sll *head)
+{
+    struct sll *temp = NULL;
+    if(head == NULL)
+    {
+        return;
+    }
+    else
+    {
+        temp = head;
+        printf("\n head ->");
+        do
+        {
+            printf("%d ->",temp->data);
+            temp = temp->next;
+        }while(temp != NULL);
+        printf("END\n");
+        
+    }
+}
+
+struct sll * add_node (struct sll *head, int data)
+{
+    struct sll *temp = NULL;
+    struct sll *temp1 = NULL;
+    
+    printf("\n adding %d",data);
+    if(head == NULL)
+    {
+        temp1 = (struct sll *)malloc(sizeof(struct sll));
+        temp1->data = data;
+        temp1->next = NULL;
+        head = temp1;
+    }
+    else
+    {
+        temp = head;
+        while(temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+        temp1 = (struct sll *)malloc(sizeof(struct sll));
+        temp1->data = data;
+        temp1->next = NULL;
+        //set the link
+        temp->next = temp1;
+    }
+    
+    return head;
+}
+
+struct sll * delete_node (struct sll *head, int position)
+{
+    struct sll *temp = NULL;
+    struct sll *temp1 = NULL;
+    int i = 0;
+    
+    printf("\n deleting position %d",position);
+
+    if(head == NULL)
+    {
+        return head;
+    }
+    else
+    {
+        temp = head;
+        while ((i != position) && (temp->next != NULL))
+        {
+            temp1 = temp;
+            temp = temp->next;
+            i++;
+        }
+        temp1->next = temp->next;
+        free(temp);
+    }
+    return head;
+}
+
+int main()
+{
+    struct sll *head = NULL;
+    head = add_node(head, 11);
+    head = add_node(head, 12);
+    head = add_node(head, 13);
+    print_list(head);
+    
+    head = delete_node(head,3);
+    print_list(head);
+    
+    head = add_node(head, 14);
+    head = add_node(head, 15);
+    print_list(head);
+    
+    head = delete_node(head,2);
+    print_list(head);
+    
+    head = add_node(head, 16);
+    head = add_node(head, 17);
+    print_list(head);
+    
+    head = delete_node(head,1);
+    print_list(head);
+    printf("\n Hello World");
+    
+    return 0;
+}
