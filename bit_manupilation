@@ -1,0 +1,90 @@
+#include <stdio.h>
+
+void print_binary_Rep(int value)
+{
+    printf("\n Binary rep of %d LSB ->",value);
+    while(value)
+    {
+        if(value & 1)
+        {
+            printf("%c \t",'1');
+        }
+        else
+        {
+            printf("%c \t",'0');
+        }
+        value = value >> 1;
+    }
+    printf("<- MSB");
+}
+
+int set_range(int value, int high_pos , int low_pos)
+{
+    int temp = 0;
+    temp = value;
+    for(int i = low_pos ; i<=high_pos; i++)
+    {
+        temp = temp | (1 << (i - 1)); // get the mask ready
+    }
+    value = value | temp; // or that mask with existing value
+    printf("\n setting range from bit %d to bit %d in %d",low_pos,high_pos,value);
+    print_binary_Rep(value);
+    return value;
+}
+
+int set_clear_bit(int value, int set_pos , int clear_pos)
+{
+    int temp = 0;
+    printf("\n set bit %d and clear bit %d in %d",set_pos,clear_pos,value);
+    temp = value;
+    temp = (temp & (~(1<<(clear_pos - 1)))) ^ (value | (1 << (set_pos - 1))); // get the mask ready
+    value = value ^ temp;
+    print_binary_Rep(value);
+    return value;
+}
+
+int toggle_bit(int value, int position)
+{
+    int temp = 0;   
+    temp = value ^ (1 << (position - 1));
+    printf("\n toggle bit %d in %d",position,value);
+    print_binary_Rep(temp);
+    return temp;
+}
+
+int clear_bit(int value, int position)
+{
+    int temp = 0;
+    temp = value & (~(1<<(position - 1)));
+    printf("\n clear bit %d in %d",position,value);
+    print_binary_Rep(temp);
+    return temp;
+}
+
+int set_bit(int value, int position)
+{
+    int temp = 0;   
+    temp = value | (1 << (position - 1));
+    printf("\n set bit %d in %d",position,value);
+    printf("\n result is \t");
+    print_binary_Rep(temp);
+    
+    return temp;
+}
+
+
+
+int main()
+{
+    int test = 193;
+    printf("\n Hello World");
+    
+    printf("\n binary rep of %d ",test);
+    print_binary_Rep(test);
+    test = set_bit(test,5);
+    test = clear_bit(test,5);
+    test = toggle_bit(test,5);
+    test = set_range (test, 6,3);
+    test = set_clear_bit(test, 3,6);
+    return 0;
+}
